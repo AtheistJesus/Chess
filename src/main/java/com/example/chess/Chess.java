@@ -119,93 +119,14 @@ public class Chess extends Application {
         return false;
     }
 
-    public static boolean interceptingStraight(Rectangle target) {
-        allPieces.remove(currentPiece);
-        if (currentPiece.getProfile().getX() != target.getX() && currentPiece.getProfile().getY() == target.getY()) {
-            if (currentPiece.getProfile().getX() < target.getX()) {
-                for (Piece piece : allPieces) {
-                    if (piece.getProfile().getX() < target.getX() &&
-                            piece.getProfile().getX() > currentPiece.getProfile().getX()
-                            && piece.getProfile().getY() == target.getY()) {
-                        allPieces.add(currentPiece);
-                        return true;
-                    }
-                }
-            }
-            else {
-                for (Piece piece : allPieces) {
-                    if (piece.getProfile().getX() > target.getX() &&
-                            piece.getProfile().getX() < currentPiece.getProfile().getX()
-                            && piece.getProfile().getY() == target.getY()) {
-                        allPieces.add(currentPiece);
-                        return true;
-                    }
-                }
-            }
-        }
-        else if (currentPiece.getProfile().getX() == target.getX() && currentPiece.getProfile().getY() != target.getY()) {
-            if (currentPiece.getProfile().getY() < target.getY()) {
-                for (Piece piece : allPieces) {
-                    if (piece.getProfile().getY() < target.getY() &&
-                            piece.getProfile().getY() > currentPiece.getProfile().getY()
-                            && piece.getProfile().getX() == target.getX()) {
-                        allPieces.add(currentPiece);
-                        return true;
-                    }
-                }
-            }
-            else {
-                for (Piece piece : allPieces) {
-                    if (piece.getProfile().getY() > target.getY() &&
-                            piece.getProfile().getY() < currentPiece.getProfile().getY()
-                            && piece.getProfile().getX() == target.getX()) {
-                        allPieces.add(currentPiece);
-                        return true;
-                    }
-                }
-            }
-        }
-        allPieces.add(currentPiece);
-        return false;
-    }
-
-    public static boolean interceptingDiagonal(Rectangle target) {
-        double currentX = currentPiece.getProfile().getX();
-        double currentY = currentPiece.getProfile().getY();
-        if (currentX < target.getX() && currentY < target.getY()) {
-            while (currentX < target.getX() && currentY < target.getY()) {
-                currentX += 75;
-                currentY += 75;
-                for (Piece piece : allPieces) {
-                    if (piece.getProfile().getX() == currentX && piece.getProfile().getY() == currentY) return true;
-                }
-            }
-        }
-        else if (currentX < target.getX() && currentY > target.getY()) {
-            while (currentX < target.getX() && currentY > target.getY()) {
-                currentX += 75;
-                currentY -= 75;
-                for (Piece piece : allPieces) {
-                    if (piece.getProfile().getX() == currentX && piece.getProfile().getY() == currentY) return true;
-                }
-            }
-        }
-        else if (currentX > target.getX() && currentY < target.getY()) {
-            while (currentX > target.getX() && currentY < target.getY()) {
-                currentX -= 75;
-                currentY += 75;
-                for (Piece piece : allPieces) {
-                    if (piece.getProfile().getX() == currentX && piece.getProfile().getY() == currentY) return true;
-                }
-            }
-        }
-        else {
-            while (currentX > target.getX() && currentY > target.getY()) {
-                currentX -= 75;
-                currentY -= 75;
-                for (Piece piece : allPieces) {
-                    if (piece.getProfile().getX() == currentX && piece.getProfile().getY() == currentY) return true;
-                }
+    public static boolean pieceInTheWayOf(Rectangle target) {
+        int currentX = (int)currentPiece.getProfile().getX();
+        int currentY = (int)currentPiece.getProfile().getY();
+        while (currentX != target.getX() || currentY != target.getY()) {
+            currentX += (int)Math.signum(target.getX() - currentX) * 75;
+            currentY += (int)Math.signum(target.getY() - currentY) * 75;
+            for (Piece piece : allPieces) {
+                if (piece.getProfile().getX() == currentX && piece.getProfile().getY() == currentY) return true;
             }
         }
         return false;

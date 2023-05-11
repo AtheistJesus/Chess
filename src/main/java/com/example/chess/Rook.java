@@ -20,7 +20,7 @@ public class Rook extends Chess implements Piece {
     }
     @Override
     public void move(Rectangle target) {
-        if (pieceOnTarget(target) || interceptingStraight(target)) return;
+        if (pieceInTheWayOf(target)) return;
         if (rookProfile.getX() != target.getX() && rookProfile.getY() == target.getY()) {
             rookProfile.setX(target.getX());
         }

@@ -22,7 +22,7 @@ public class Queen extends Chess implements Piece {
 
     @Override
     public void move(Rectangle target) {
-        if (pieceOnTarget(target) || interceptingStraight(target) || interceptingDiagonal(target)) return;
+        if (pieceInTheWayOf(target)) return;
         if (queenProfile.getX() != target.getX() && queenProfile.getY() == target.getY() ||
         queenProfile.getX() == target.getX() && queenProfile.getY() != target.getY() ||
         Math.abs(target.getX() - queenProfile.getX()) == Math.abs(target.getY() - queenProfile.getY())) {

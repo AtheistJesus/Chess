@@ -25,7 +25,7 @@ public class Pawn extends Chess implements Piece {
 
     @Override
     public void move(Rectangle target) {
-        if (pieceOnTarget(target) || interceptingStraight(target) || pawnProfile.getX() != target.getX()) return;
+        if (pieceInTheWayOf(target) || pawnProfile.getX() != target.getX()) return;
         if (pawnProfile.getY() == 75 && target.getY() == 0) promote();
         if (firstMove && pawnProfile.getY() - 150 == target.getY()) pawnProfile.setY(pawnProfile.getY() - 150);
         else if (pawnProfile.getY() - 75 == target.getY()) pawnProfile.setY(pawnProfile.getY() - 75);

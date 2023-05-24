@@ -21,7 +21,10 @@ public class Bishop extends Chess implements Piece {
 
     @Override
     public void move(Rectangle target) {
-        if (pieceInTheWayOf(target)) return;
+        if (pieceInTheWayOf(target) != null) {
+            currentPiece = pieceInTheWayOf(target);
+            return;
+        }
         if (Math.abs(target.getX() - bishopProfile.getX()) == Math.abs(target.getY() - bishopProfile.getY())) {
             bishopProfile.setX(target.getX());
             bishopProfile.setY(target.getY());

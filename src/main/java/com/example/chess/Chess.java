@@ -107,29 +107,29 @@ public class Chess extends Application {
         }
     }
 
-    public static boolean pieceOnTarget(Rectangle target) {
+    public static Piece pieceOnTarget(Rectangle target) {
         allPieces.remove(currentPiece);
         for (Piece piece : allPieces) {
             if (target.contains(piece.getProfile().getX(), piece.getProfile().getY())) {
                 allPieces.add(currentPiece);
-                return true;
+                return piece;
             }
         }
         allPieces.add(currentPiece);
-        return false;
+        return null;
     }
 
-    public static boolean pieceInTheWayOf(Rectangle target) {
+    public static Piece pieceInTheWayOf(Rectangle target) {
         int currentX = (int)currentPiece.getProfile().getX();
         int currentY = (int)currentPiece.getProfile().getY();
         while (currentX != target.getX() || currentY != target.getY()) {
             currentX += (int)Math.signum(target.getX() - currentX) * 75;
             currentY += (int)Math.signum(target.getY() - currentY) * 75;
             for (Piece piece : allPieces) {
-                if (piece.getProfile().getX() == currentX && piece.getProfile().getY() == currentY) return true;
+                if (piece.getProfile().getX() == currentX && piece.getProfile().getY() == currentY) return piece;
             }
         }
-        return false;
+        return null;
     }
 
     public static void main(String[] args) {

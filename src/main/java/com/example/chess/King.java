@@ -22,7 +22,10 @@ public class King extends Chess implements Piece {
 
     @Override
     public void move(Rectangle target) {
-        if (pieceOnTarget(target)) return;
+        if (pieceOnTarget(target) != null) {
+            currentPiece = pieceOnTarget(target);
+            return;
+        }
         if (Math.abs(target.getX() - kingProfile.getX()) / 75 <= 1 &&
                 Math.abs(target.getY() - kingProfile.getY()) / 75 <= 1) {
             kingProfile.setX(target.getX());

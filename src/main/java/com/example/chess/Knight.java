@@ -22,7 +22,10 @@ public class Knight extends Chess implements Piece {
 
     @Override
     public void move(Rectangle target) {
-        if (pieceOnTarget(target)) return;
+        if (pieceOnTarget(target) != null) {
+            currentPiece = pieceOnTarget(target);
+            return;
+        }
         if (Math.abs(target.getX() - knightProfile.getX()) / 75 == 2 &&
                 Math.abs(target.getY() - knightProfile.getY()) / 75 == 1 ||
                 Math.abs(target.getX() - knightProfile.getX()) / 75 == 1 &&

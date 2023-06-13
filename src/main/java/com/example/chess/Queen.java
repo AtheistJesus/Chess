@@ -17,15 +17,20 @@ public class Queen extends Chess implements Piece {
         queenProfile.setY(y);
         queenProfile.setFitWidth(width);
         queenProfile.setFitHeight(height);
-        queenProfile.setOnMouseClicked(mouseEvent -> currentPiece = this);
+        queenProfile.setOnMouseClicked(mouseEvent -> {
+            previousPiece = currentPiece;
+            currentPiece = this;
+        });
     }
 
     @Override
     public void move(Rectangle target) {
-        if (pieceInTheWayOf(target) != null) {
-            currentPiece = pieceInTheWayOf(target);
+        Piece piece = pieceOnTarget(target);
+        if (piece != null) {
+            currentPiece = piece;
             return;
         }
+        if (pieceInTheWayOf(target)) return;
         if (queenProfile.getX() != target.getX() && queenProfile.getY() == target.getY() ||
         queenProfile.getX() == target.getX() && queenProfile.getY() != target.getY() ||
         Math.abs(target.getX() - queenProfile.getX()) == Math.abs(target.getY() - queenProfile.getY())) {

@@ -10,8 +10,8 @@ import java.util.Objects;
 
 public class Pawn extends Chess implements Piece {
 
-    private boolean firstMove = true;
     private final ImageView pawnProfile;
+    private boolean firstMove = true;
 
     public Pawn(int x, int y, int width, int height) {
         Image pawnImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/pawn.png")));
@@ -20,15 +20,20 @@ public class Pawn extends Chess implements Piece {
         pawnProfile.setY(y);
         pawnProfile.setFitWidth(width);
         pawnProfile.setFitHeight(height);
-        pawnProfile.setOnMouseClicked(mouseEvent -> currentPiece = this);
+        pawnProfile.setOnMouseClicked(mouseEvent -> {
+            previousPiece = currentPiece;
+            currentPiece = this;
+        });
     }
 
     @Override
     public void move(Rectangle target) {
-        if (pieceInTheWayOf(target) != null) {
-            currentPiece = pieceInTheWayOf(target);
+        Piece piece = pieceOnTarget(target);
+        if (piece != null) {
+            currentPiece = piece;
             return;
         }
+        if (pieceInTheWayOf(target)) return;
         if (pawnProfile.getX() == target.getX()) {
             if (pawnProfile.getY() == 75 && target.getY() == 0) promote();
             if (firstMove && pawnProfile.getY() - 150 == target.getY()) pawnProfile.setY(pawnProfile.getY() - 150);

@@ -16,15 +16,20 @@ public class Bishop extends Chess implements Piece {
         bishopProfile.setY(y);
         bishopProfile.setFitWidth(width);
         bishopProfile.setFitHeight(height);
-        bishopProfile.setOnMouseClicked(mouseEvent -> currentPiece = this);
+        bishopProfile.setOnMouseClicked(mouseEvent -> {
+            previousPiece = currentPiece;
+            currentPiece = this;
+        });
     }
 
     @Override
     public void move(Rectangle target) {
-        if (pieceInTheWayOf(target) != null) {
-            currentPiece = pieceInTheWayOf(target);
+        Piece piece = pieceOnTarget(target);
+        if (piece != null) {
+            currentPiece = piece;
             return;
         }
+        if (pieceInTheWayOf(target)) return;
         if (Math.abs(target.getX() - bishopProfile.getX()) == Math.abs(target.getY() - bishopProfile.getY())) {
             bishopProfile.setX(target.getX());
             bishopProfile.setY(target.getY());

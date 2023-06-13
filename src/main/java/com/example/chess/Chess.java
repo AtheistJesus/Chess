@@ -17,6 +17,7 @@ public class Chess extends Application {
 
     protected static List<Piece> allPieces = new ArrayList<>();
 
+    protected static Piece previousPiece;
     protected static Piece currentPiece;
 
     public static Group board = new Group();
@@ -108,28 +109,38 @@ public class Chess extends Application {
     }
 
     public static Piece pieceOnTarget(Rectangle target) {
-        allPieces.remove(currentPiece);
         for (Piece piece : allPieces) {
             if (target.contains(piece.getProfile().getX(), piece.getProfile().getY())) {
-                allPieces.add(currentPiece);
                 return piece;
             }
         }
-        allPieces.add(currentPiece);
         return null;
     }
 
-    public static Piece pieceInTheWayOf(Rectangle target) {
+    public static boolean pieceInTheWayOf(Rectangle target) {
         int currentX = (int)currentPiece.getProfile().getX();
         int currentY = (int)currentPiece.getProfile().getY();
         while (currentX != target.getX() || currentY != target.getY()) {
             currentX += (int)Math.signum(target.getX() - currentX) * 75;
             currentY += (int)Math.signum(target.getY() - currentY) * 75;
             for (Piece piece : allPieces) {
-                if (piece.getProfile().getX() == currentX && piece.getProfile().getY() == currentY) return piece;
+                if (piece.getProfile().getX() == currentX && piece.getProfile().getY() == currentY) return true;
             }
         }
-        return null;
+        return false;
+    }
+
+    public static boolean pieceInTheWayOf(Piece target) {
+        int currentX = (int)currentPiece.getProfile().getX();
+        int currentY = (int)currentPiece.getProfile().getY();
+        while (currentX != target.getProfile().getX() || currentY != target.getProfile().getY()) {
+            currentX += (int)Math.signum(target.getProfile().getX() - currentX) * 75;
+            currentY += (int)Math.signum(target.getProfile().getY() - currentY) * 75;
+            for (Piece piece : allPieces) {
+                if (piece.getProfile().getX() == currentX && piece.getProfile().getY() == currentY) return true;
+            }
+        }
+        return false;
     }
 
     public static void main(String[] args) {

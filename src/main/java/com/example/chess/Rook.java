@@ -8,6 +8,7 @@ import java.util.Objects;
 
 public class Rook extends Chess implements Piece {
 
+    boolean hasMoved = false;
     private final ImageView rookProfile;
 
     public Rook(int x, int y, int width, int height) {
@@ -16,20 +17,28 @@ public class Rook extends Chess implements Piece {
         rookProfile.setY(y);
         rookProfile.setFitWidth(width);
         rookProfile.setFitHeight(height);
-        rookProfile.setOnMouseClicked(mouseEvent -> currentPiece = this);
+        rookProfile.setOnMouseClicked(mouseEvent -> {
+            previousPiece = currentPiece;
+            if (previousPiece instanceof King)
+                ((King) previousPiece).castle(this);
+            currentPiece = this;
+        });
     }
     @Override
     public void move(Rectangle target) {
-        if (pieceInTheWayOf(target) != null) {
-            currentPiece = pieceInTheWayOf(target);
+        Piece piece = pieceOnTarget(target);
+        if (piece != null) {
+            currentPiece = piece;
             return;
         }
+        if (pieceInTheWayOf(target)) return;
         if (rookProfile.getX() != target.getX() && rookProfile.getY() == target.getY()) {
             rookProfile.setX(target.getX());
         }
         else if (rookProfile.getX() == target.getX() && rookProfile.getY() != target.getY()) {
             rookProfile.setY(target.getY());
         }
+        hasMoved = true;
     }
 
     @Override

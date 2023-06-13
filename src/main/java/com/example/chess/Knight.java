@@ -17,13 +17,17 @@ public class Knight extends Chess implements Piece {
         knightProfile.setY(y);
         knightProfile.setFitWidth(width);
         knightProfile.setFitHeight(height);
-        knightProfile.setOnMouseClicked(mouseEvent -> currentPiece = this);
+        knightProfile.setOnMouseClicked(mouseEvent -> {
+            previousPiece = currentPiece;
+            currentPiece = this;
+        });
     }
 
     @Override
     public void move(Rectangle target) {
-        if (pieceOnTarget(target) != null) {
-            currentPiece = pieceOnTarget(target);
+        Piece piece = pieceOnTarget(target);
+        if (piece != null) {
+            currentPiece = piece;
             return;
         }
         if (Math.abs(target.getX() - knightProfile.getX()) / 75 == 2 &&

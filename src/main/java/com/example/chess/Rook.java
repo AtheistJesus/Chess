@@ -19,8 +19,7 @@ public class Rook extends Chess implements Piece {
         rookProfile.setFitHeight(height);
         rookProfile.setOnMouseClicked(mouseEvent -> {
             previousPiece = currentPiece;
-            if (previousPiece instanceof King)
-                ((King) previousPiece).castle(this);
+            if (previousPiece instanceof King) ((King) previousPiece).castle(this);
             currentPiece = this;
         });
     }

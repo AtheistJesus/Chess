@@ -28,7 +28,7 @@ public class King extends Chess implements Piece {
     @Override
     public void move(Rectangle target) {
         Piece piece = pieceOnTarget(target);
-        if (piece instanceof Rook && !this.hasMoved && !((Rook) piece).hasMoved) {
+        if (piece instanceof Rook) {
             castle(piece);
             return;
         }
@@ -46,7 +46,7 @@ public class King extends Chess implements Piece {
 
     void castle(Piece piece) {
         allPieces.remove(piece);
-        if (!pieceInTheWayOf(piece)) {
+        if (!pieceInTheWayOf(piece) && !this.hasMoved && !((Rook) piece).hasMoved) {
             if (Objects.requireNonNull(piece).getProfile().getX() < kingProfile.getX()) {
                 kingProfile.setX(kingProfile.getX() - 150);
                 Objects.requireNonNull(piece).getProfile().setX(kingProfile.getX() + 75);
